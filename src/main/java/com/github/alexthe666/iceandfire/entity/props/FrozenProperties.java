@@ -29,14 +29,22 @@ public class FrozenProperties {
     }
 
     private static CompoundTag getOrCreateFrozenData(CompoundTag entityData) {
-        if (containsFrozenData.containsKey(entityData) && containsFrozenData.getOrDefault(entityData, false) && entityData.contains(FROZEN_DATA, ListTag.TAG_COMPOUND)) {
-            return (CompoundTag) entityData.get(FROZEN_DATA);
-        } else if (entityData.contains(FROZEN_DATA, ListTag.TAG_COMPOUND)) {
-            containsFrozenData.put(entityData, true);
-            return (CompoundTag) entityData.get(FROZEN_DATA);
+        if (entityData.isEmpty()) return createDefaultData();
+        var flag = containsFrozenData.get(entityData);
+        if (flag != null) {
+            if (flag) {
+                return  (CompoundTag) entityData.get(FROZEN_DATA);
+            } else {
+                return createDefaultData();
+            }
         } else {
-            containsFrozenData.put(entityData, false);
-            return createDefaultData();
+            if (entityData.contains(FROZEN_DATA, ListTag.TAG_COMPOUND)) {
+                containsFrozenData.put(entityData, true);
+                return  (CompoundTag) entityData.get(FROZEN_DATA);
+            } else {
+                containsFrozenData.put(entityData, false);
+                return createDefaultData();
+            }
         }
     }
 

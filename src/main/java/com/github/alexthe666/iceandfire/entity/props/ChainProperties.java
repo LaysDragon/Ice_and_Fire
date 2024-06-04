@@ -23,6 +23,7 @@ public class ChainProperties {
 
     // FIXME: All of these hashmap optimizations are temporary to resolve performance issues, ideally we create a different system
     private static HashMap<CompoundTag, Boolean> containsChainData = new HashMap<>();
+
     public static void attachChain(LivingEntity chained, Entity chainedTo) {
         if (isChainedTo(chained, chainedTo)) {
             return;
@@ -68,16 +69,22 @@ public class ChainProperties {
     }
 
     private static ListTag getOrCreateChainData(CompoundTag entityData) {
-        //TODO: Look at type
-        if (containsChainData.containsKey(entityData) && containsChainData.get(entityData) && entityData.contains(CHAIN_DATA, 9)) {
-            return entityData.getList(CHAIN_DATA, 10);
-        }
-        else if (entityData.contains(CHAIN_DATA, 9)) {
-            containsChainData.put(entityData, true);
-            return entityData.getList(CHAIN_DATA, 10);
+        if (entityData.isEmpty()) return new ListTag();
+        var flag =containsChainData.get(entityData);
+        if (flag != null) {
+            if (flag) {
+                return entityData.getList(CHAIN_DATA, 10);
+            } else {
+                return new ListTag();
+            }
         } else {
-            containsChainData.put(entityData, false);
-            return new ListTag();
+            if (entityData.contains(CHAIN_DATA, 9)) {
+                containsChainData.put(entityData, true);
+                return entityData.getList(CHAIN_DATA, 10);
+            } else {
+                containsChainData.put(entityData, false);
+                return new ListTag();
+            }
         }
     }
 
