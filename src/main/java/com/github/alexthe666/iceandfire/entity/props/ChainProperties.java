@@ -10,10 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ChainProperties {
 
@@ -22,7 +19,7 @@ public class ChainProperties {
     private static final String CHAIN_DATA = "ChainDataIaf";
 
     // FIXME: All of these hashmap optimizations are temporary to resolve performance issues, ideally we create a different system
-    private static HashMap<CompoundTag, Boolean> containsChainData = new HashMap<>();
+    private static WeakHashMap<CompoundTag, Boolean> containsChainData = new WeakHashMap<>();
 
     public static void attachChain(LivingEntity chained, Entity chainedTo) {
         if (isChainedTo(chained, chainedTo)) {

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.WeakHashMap;
 
 public class FrozenProperties {
     private static final String FROZEN_DATA = "FrozenDataIaf";
@@ -22,7 +23,7 @@ public class FrozenProperties {
     private static final Random rand = new Random();
 
     // FIXME: All of these hashmap optimizations are temporary to resolve performance issues, ideally we create a different system
-    private static final HashMap<CompoundTag, Boolean> containsFrozenData = new HashMap<>();
+    private static final WeakHashMap<CompoundTag, Boolean> containsFrozenData = new WeakHashMap<>();
 
     private static CompoundTag getOrCreateFrozenData(LivingEntity entity) {
         return getOrCreateFrozenData(CitadelEntityData.getCitadelTag(entity));
